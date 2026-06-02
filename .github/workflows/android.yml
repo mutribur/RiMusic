@@ -23,9 +23,14 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleDebug
 
+    - name: Find and Collect APKs
+      run: |
+        mkdir -p extracted-apks
+        find . -name "*.apk" -type f -exec cp {} extracted-apks/ \;
+        ls -la extracted-apks/
+
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: rimusic-apk
-        path: "**/build/outputs/apk/debug
-        /*.apk"
+        path: extracted-apks/
